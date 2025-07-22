@@ -58,6 +58,9 @@ const Cadastro = () => {
         >
             Cadastrar
         </button>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Já tem uma conta? <a href="/login" className="text-blue-600 hover:underline">Faça login</a>
+        </p>
         </form>
         </>
   );
