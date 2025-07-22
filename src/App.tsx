@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer.tsx/Footer";
 import Cadastro from "./components/Users/NewUser/Cadastro";
+import User from "./components/Users/User/User";
 function App() {
   return (
     <Router>
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/ProductPage" element={<ProductPage />} />
         <Route path="/Cadastro" element={<Cadastro />} />
+        <Route path="/user" element={<User />} />
       </Routes>
       <Footer/>
     </Router>
