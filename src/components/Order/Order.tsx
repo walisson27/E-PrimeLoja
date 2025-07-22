@@ -1,11 +1,10 @@
-import React from "react";
 
 interface OrderProps {
   sortType: string;
   onSortChange: (value: string) => void;
 }
 
-const Order: React.FC<OrderProps> = ({ sortType, onSortChange }) => {
+const Order = ({ sortType, onSortChange }: OrderProps) => {
   return (
     <div className="p-6">
       <div className="mb-4">
