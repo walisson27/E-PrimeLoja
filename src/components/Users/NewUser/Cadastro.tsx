@@ -19,12 +19,28 @@ const [form, setForm] = useState<formData>({
 const user = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Formulário enviado:", form);
+
+    fetch('http://localhost:3001/cadastro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      alert(data.message);
+    })
+    .catch((error) => {
+      console.error("Erro ao cadastrar:", error);
+    });
     setForm({
       name: '',
       email: '',
       address: '',
       password: ''
-    });
+    })
   }
 
   return (
@@ -90,6 +106,6 @@ const user = (e: React.FormEvent<HTMLFormElement>) => {
         </form>
         </>
   );
-}
+};
 
 export default Cadastro;
