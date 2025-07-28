@@ -1,7 +1,6 @@
 import  { useState } from "react";
 import { productData } from "../productData";
 import Order from "../components/Order/Order";
-
 interface Product {
   id: number;
   title: string;
