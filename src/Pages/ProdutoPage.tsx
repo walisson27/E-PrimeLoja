@@ -27,7 +27,7 @@ const ProdutoPage = () => {
 
   // 🔄 Busca os produtos da API e encontra o pelo ID da URL
   useEffect(() => {
-    fetch("http://localhost:3001/produtos")
+    fetch("https://loja-teste-1.onrender.com/produtos")
       .then((res) => res.json())
       .then((data: Product[]) => {
         const found = data.find((p) => p.id === productId);
@@ -35,39 +35,6 @@ const ProdutoPage = () => {
       })
       .catch((err) => console.error("Erro ao buscar produtos:", err));
   }, [productId]);
-
-  // 🔁 Recupera seleção anterior do localStorage
-  useEffect(() => {
-    if (product) {
-      const saved = localStorage.getItem(`product-selection-${product.id}`);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Date.now() - parsed.timestamp < 15 * 60 * 1000) {
-          setSelectedSize(parsed.size);
-          setSelectedColor(parsed.color);
-          setMainImage(parsed.image);
-        }
-      }
-      if (!mainImage && product.images.length > 0) {
-        setMainImage(product.images[0]);
-      }
-    }
-  }, [product]);
-
-  // 💾 Salva seleção no localStorage
-  useEffect(() => {
-    if (product && mainImage) {
-      localStorage.setItem(
-        `product-selection-${product.id}`,
-        JSON.stringify({
-          size: selectedSize,
-          color: selectedColor,
-          image: mainImage,
-          timestamp: Date.now(),
-        })
-      );
-    }
-  }, [selectedSize, selectedColor, mainImage]);
 
   if (!product) {
     return <p className="text-red-600">Produto não encontrado.</p>;

@@ -38,6 +38,19 @@ app.post("/produtos", (req, res) => {
   res.status(201).json(novoProduto);
 });
 
+app.delete("/produtos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = produtos.findIndex(p => p.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ erro: "Produto não encontrado." });
+  }
+
+  const produtoRemovido = produtos.splice(index, 1)[0];
+  res.json({ mensagem: "Produto removido com sucesso.", produto: produtoRemovido });
+});
+
+
 app.listen(PORT, () => {
   console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
 });

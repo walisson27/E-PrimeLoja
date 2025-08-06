@@ -22,7 +22,7 @@ const Produto = () => {
       }
     };
 
-    await fetch("http://localhost:3001/produtos", {
+    await fetch("https://loja-teste-1.onrender.com/produtos", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -14,7 +14,7 @@ const ProdutoHome = () => {
 
   // Buscar produtos da API ao montar o componente
   useEffect(() => {
-    fetch("http://localhost:3001/produtos") // ajuste a URL se necessário
+    fetch("https://loja-teste-1.onrender.com/produtos") // ajuste a URL se necessário
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Erro ao buscar produtos:", err));
