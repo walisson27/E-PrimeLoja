@@ -2,46 +2,37 @@ import  { useState } from 'react';
 
 
 
-const Login = () => {
-const [user, setUser] = useState({
-  username: '',
-  password: ''
-})
+function Login() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
-const login = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-
-  fetch('http://localhost:3001/usuarios', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(user),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      alert(data.message);
-    })
-    .catch((error) => {
-      console.error("Erro ao fazer login:", error);
+  const handleLogin = async () => {
+    const res = await fetch("http://localhost:3001/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha }),
     });
-  if (user.username === user.password) {
-    alert("Login bem-sucedido!");
-  }
-}
+
+    const data = await res.json();
+    if (res.ok) {
+      localStorage.setItem("token", data.token);
+      alert("Login feito com sucesso!");
+    } else {
+      alert(data.erro);
+    }
+  };
   return (
-    <> 
-    <form onSubmit={login} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5">
+    <>
+    <form onSubmit={handleLogin} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
       <div>
-        <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">Usuário</label>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
         <input
-          type="text"
-          id="username"
-          name="username"
-          value={user.username}
-          onChange={(e) => setUser({ ...user, username: e.target.value })}
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
           className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 transition"
         />
@@ -52,9 +43,8 @@ const login = (e: React.FormEvent<HTMLFormElement>) => {
           type="password"
           id="password"
           name="password"
-          value={user.password}
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
-          required
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
           className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 transition"
         />
       </div>
