@@ -1,5 +1,4 @@
 import { useState } from "react";
-const token = localStorage.getItem("token");
 
 const Produto = () => {
   const [form, setForm] = useState({
@@ -27,7 +26,6 @@ const Produto = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
-        , "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(novoProduto)
     });
@@ -79,14 +77,12 @@ const Produto = () => {
         onChange={e => setForm({ ...form, colors: e.target.value })}
         className="w-full border p-2 rounded"
       />
-       {token && (
       <button
         type="submit"
         className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
       >
         Cadastrar Produto
       </button>
-      )}
     </form>
   );
 };
