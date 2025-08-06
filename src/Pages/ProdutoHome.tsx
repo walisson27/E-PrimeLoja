@@ -29,6 +29,22 @@ const ProdutoHome = () => {
     return 0;
   });
 
+ const removerProduto = async (id: number) => {
+    const confirm = window.confirm("Tem certeza que deseja remover este produto?");
+    if (!confirm) return;
+
+    try {
+      await fetch(`https://loja-teste-1.onrender.com/produtos/${id}`, {
+        method: "DELETE",
+      });
+
+      // Remove do estado (frontend)
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+    } catch (error) {
+      console.error("Erro ao remover produto:", error);
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto p-6">
       <header className="flex flex-row justify-between items-center mb-6">
@@ -54,6 +70,12 @@ const ProdutoHome = () => {
                 R$ {product.price.toFixed(2)}
               </p>
             </a>
+            <button
+              onClick={() => removerProduto(product.id)}
+              className="mt-2 w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            >
+              Remover Produto
+            </button>
           </li>
         ))}
       </ul>
