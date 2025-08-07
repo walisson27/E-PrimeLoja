@@ -1,17 +1,22 @@
 import { useState } from "react";
 
+
+
 const Produto = () => {
   const [form, setForm] = useState({
     title: '',
     price: '',
-    images: '', // URLs separadas por vírgula
+    images: '', 
     sizes: '',
     colors: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    if (!form.title || !form.price || !form.images || !form.sizes || !form.colors) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
     const novoProduto = {
       title: form.title,
       price: parseFloat(form.price),
