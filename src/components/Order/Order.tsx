@@ -9,7 +9,6 @@ const Order = ({ sortType, onSortChange }: OrderProps) => {
     <div className="p-6">
       <div className="mb-4">
         <label className="mr-2 font-semibold" htmlFor="sort-select">
-          Ordenar por:
         </label>
         <select
           id="sort-select"
