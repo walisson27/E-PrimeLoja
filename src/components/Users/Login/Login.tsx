@@ -1,26 +1,23 @@
 import  { useState } from 'react';
-
+import { autenticar,login } from '../../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [userAuth, setUserAuth] = useState({ email: '', senha: '' });
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    const res = await fetch("http://localhost:3001/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, senha }),
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      alert("Login feito com sucesso!");
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { email, senha } = userAuth;
+    if (autenticar(email, senha)) {
+      login(email);
+      navigate('/produto');
     } else {
-      alert(data.erro);
+      alert('Email ou senha inválidos');
     }
   };
+
   return (
     <>
     <form onSubmit={handleLogin} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5">
@@ -31,8 +28,8 @@ function Login() {
           type="email"
           id="email"
           name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={userAuth.email}
+          onChange={(e) => setUserAuth({ ...userAuth, email: e.target.value })}
           required
           className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 transition"
         />
@@ -43,8 +40,8 @@ function Login() {
           type="password"
           id="password"
           name="password"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
+          value={userAuth.senha}
+          onChange={(e) => setUserAuth({ ...userAuth, senha: e.target.value })}
           className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 transition"
         />
       </div>

@@ -1,38 +1,39 @@
 import  { useState } from 'react';
-
-
+import { salvarUsuario } from '../../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Cadastro = () => {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [newUser, setNewUser] = useState({ email: '', senha: '' , name: '' });
+  const navigate = useNavigate();
 
-  const handleCadastro = async () => {
-    const res = await fetch("http://localhost:3001/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, senha }),
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      alert("Usuário cadastrado com sucesso!");
-    } else {
-      alert(data.erro);
-    }
+  const handleCadastro = (e: React.FormEvent) => {
+    e.preventDefault();
+    salvarUsuario(newUser.email, newUser.senha, newUser.name);
+    navigate('/login');
   };
 
   return (
         <>
         <form onSubmit={handleCadastro} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5">
-
+        <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nome</label>
+            <input
+            type="name"
+            id="name"
+            name="name"
+            value={newUser.name}
+            onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+            className="mt-1 w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
+            />
+        </div>
         <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input
             type="email"
             id="email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={newUser.email}
+            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
             className="mt-1 w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
             />
         </div>
@@ -43,8 +44,8 @@ const Cadastro = () => {
             type="password"
             id="password"
             name="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            value={newUser.senha}
+            onChange={(e) => setNewUser({ ...newUser, senha: e.target.value })}
             className="mt-1 w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
             />
         </div>
