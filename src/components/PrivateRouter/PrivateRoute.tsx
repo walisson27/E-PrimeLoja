@@ -1,5 +1,5 @@
-import { Navigate } from "react-router-dom";
-import { usuarioAtual } from "../../utils/auth";
+/*import { Navigate } from "react-router-dom";
+import { usuarioAtual } from "../../utils/useAuth";
 import type { JSX } from "react";
 
 export default function PrivateRoute({children}: {children: JSX.Element}) {
@@ -8,4 +8,4 @@ export default function PrivateRoute({children}: {children: JSX.Element}) {
         return <Navigate to="/login" replace />;
     }
     return children;
-}
+}*/

@@ -1,35 +1,45 @@
 import {Link} from "react-router-dom";
-import { usuarioAtual,logout } from "../../utils/auth";
-import "./navbar.css"
+
 
 
 const Navbar = () => {
-  const userLogin = usuarioAtual();
 
-  const handleLogout = () => {
-    logout();
-    window.location.reload();
-  };
 
 
   return (
-    <nav className="navbar ">
-      <ul className="navbar-menu">
-        <li><Link to="/">Home</Link></li>
-       {/* <li><Link to="/contact">Contact</Link></li> */}
-        <li><Link to="/produto">Cadastro de Produtos</Link></li>
-        { userLogin ? (
-          <>
-            <li><span>Olá,{userLogin}</span></li>
-            <li><button onClick={handleLogout}>Logout</button></li>
-          </>
-        ) : (
-          <li><Link to="/login">Login</Link></li>
-        )}
-
-      </ul>
-    </nav>
+        <nav className="bg-gray-900 shadow-md">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex-shrink-0 text-white text-lg font-bold tracking-wide">
+                Minha Loja
+              </div>
+              <ul className="flex space-x-8">
+                <li>
+                  <Link to={"/"}
+                    className="text-gray-300 hover:text-white transition-colors duration-300 font-medium"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/produto"} 
+                    className="text-gray-300 hover:text-white transition-colors duration-300 font-medium"
+                  >
+                    Cadastro de Produtos
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/login"}
+                    className="text-gray-300 hover:text-white transition-colors duration-300 font-medium"
+                  >
+                    Login
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
   );
 }
 
-export default Navbar;
+export default Navbar;  

@@ -1,39 +1,33 @@
 import  { useState } from 'react';
-import { salvarUsuario } from '../../../utils/auth';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../utils/useAuth';
 
-const Cadastro = () => {
-  const [newUser, setNewUser] = useState({ email: '', senha: '' , name: '' });
-  const navigate = useNavigate();
+export const Cadastrar = () => {
+  const { register } = useAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleCadastro = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    salvarUsuario(newUser.email, newUser.senha, newUser.name);
-    navigate('/login');
+    try {
+      register(username, password);
+      alert("Cadastro realizado com sucesso! Agora faça login.");
+      window.location.href = "/";
+    } catch (error: any) {
+      alert(error.message);
+    }
   };
 
   return (
         <>
-        <form onSubmit={handleCadastro} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5">
-        <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nome</label>
-            <input
-            type="name"
-            id="name"
-            name="name"
-            value={newUser.name}
-            onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-            className="mt-1 w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
-            />
-        </div>
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5">
         <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input
             type="email"
             id="email"
             name="email"
-            value={newUser.email}
-            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="mt-1 w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
             />
         </div>
@@ -44,8 +38,8 @@ const Cadastro = () => {
             type="password"
             id="password"
             name="password"
-            value={newUser.senha}
-            onChange={(e) => setNewUser({ ...newUser, senha: e.target.value })}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="mt-1 w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
             />
         </div>
@@ -64,4 +58,4 @@ const Cadastro = () => {
   );
 };
 
-export default Cadastro;
+export default Cadastrar;

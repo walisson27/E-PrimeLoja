@@ -7,7 +7,7 @@ import Cadastro from "./components/Users/NewUser/Cadastro";
 import User from "./components/Users/User/User";
 import Login from "./components/Users/Login/Login";
 import Produto from "./components/Produto/Produto";
-import PrivateRoute from "./components/PrivateRouter/PrivateRoute";
+/*import PrivateRoute from "./components/PrivateRouter/PrivateRoute";*/
 import ProdutoHome from "./Pages/ProdutoHome";
 import ProdutoPage from "./Pages/ProdutoPage";
 function App() {
@@ -21,9 +21,7 @@ function App() {
         <Route path="/user" element={<User />} />
         <Route path="/login" element={<Login />} />
         <Route path="/produto" element={
-          <PrivateRoute>
-            <Produto />
-          </PrivateRoute>
+        <Produto />
         } />
       </Routes>
       <Footer/>
