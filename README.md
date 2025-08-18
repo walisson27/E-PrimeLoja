@@ -1,34 +1,50 @@
-<h1 align="center">
-    Loja Teste
-</h1>
-
-<h4 align="center">
-  🚀 Desenvolvido com Reactjs
-</h4>
+<h1 align="center">🛍️ Loja Teste</h1>
 
 <p align="center">
-  <a href="https://loja-teste-roan.vercel.app/">Pagina do Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#rocket-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-instalação">Instalação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  
+  <i>Uma aplicação de e-commerce desenvolvida com React, TypeScript e TailwindCSS.</i>
 </p>
 
-## :rocket: Tecnologias
+<p align="center">
+  <a href="https://loja-teste-roan.vercel.app/" target="_blank">🌐 Acesse o Projeto</a>
+</p>
 
-Esse projeto foi desenvolvido com as seguintes tecnologias:
+---
 
-- ReactJs
-- Typescript
-- Tailwind
-<br>
+## 📌 Sobre o Projeto
+Este projeto é uma **Loja Teste** criada para fins de estudo em **ReactJS** e **TypeScript**, com foco em boas práticas, componentização e estilização utilizando **TailwindCSS**.  
 
-## 💻 Instalação
+O objetivo é simular uma aplicação de e-commerce com interface moderna e responsiva.
 
-Para iniciar o **Projeto** utilize os comandos:
+---
+
+## 🚀 Tecnologias Utilizadas
+- ⚛️ [ReactJS](https://react.dev/)  
+- 📘 [TypeScript](https://www.typescriptlang.org/)  
+- 🎨 [TailwindCSS](https://tailwindcss.com/)  
+- ⚡ [Vite](https://vitejs.dev/)  
+
+---
+
+## 📸 Demonstração
+<p align="center">
+  <img src="https://via.placeholder.com/800x400.png?text=Print+da+Loja+Teste" alt="Demonstração do projeto" />
+</p>
+
+---
+
+## ⚙️ Instalação
+
+Clone o repositório e siga os passos:
 
 ```bash
-npm install
-npm run dev
-```
+# Clonar repositório
+git clone https://github.com/walisson27/Loja-Teste.git
 
-Assim que o processo terminar, automaticamente será aberta no seu navegador a página `http://localhost:3000/`.
+# Acessar pasta do projeto
+cd Loja-Teste
+
+# Instalar dependências
+npm install
+
+# Rodar em modo de desenvolvimento
+npm run dev
