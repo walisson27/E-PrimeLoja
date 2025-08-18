@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Order from "../components/Order/Order";
+import { useAuth } from "../utils/useAuth";
 
 interface Product {
   id: number;
@@ -9,6 +10,7 @@ interface Product {
 }
 
 const ProdutoHome = () => {
+  const {user} = useAuth()
   const [products, setProducts] = useState<Product[]>([]);
   const [sortType, setSortType] = useState<string>("az");
 

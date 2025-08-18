@@ -25,6 +25,7 @@ export const useAuth = () => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    window.location.href = "/login"
   };
 
   const register = (username: string, password: string) => {

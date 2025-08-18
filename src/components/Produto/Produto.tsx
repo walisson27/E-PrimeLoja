@@ -1,8 +1,9 @@
 import { useState } from "react";
-
+import { useAuth } from "../../utils/useAuth";
 
 
 const Produto = () => {
+  const { user } = useAuth();
   const [form, setForm] = useState({
     title: '',
     price: '',
@@ -46,50 +47,69 @@ const Produto = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto mt-6 p-4 border rounded shadow">
-      <input
-        type="text"
-        placeholder="Título do Produto"
-        value={form.title}
-        onChange={e => setForm({ ...form, title: e.target.value })}
-        className="w-full border p-2 rounded"
-      />
-      <input
-        type="number"
-        placeholder="Preço"
-        value={form.price}
-        onChange={e => setForm({ ...form, price: e.target.value })}
-        className="w-full border p-2 rounded"
-      />
-      <input
-        type="text"
-        placeholder="URLs das Imagens (separadas por vírgula)"
-        value={form.images}
-        onChange={e => setForm({ ...form, images: e.target.value })}
-        className="w-full border p-2 rounded"
-      />
-      <input
-        type="text"
-        placeholder="Tamanhos (separados por vírgula)"
-        value={form.sizes}
-        onChange={e => setForm({ ...form, sizes: e.target.value })}
-        className="w-full border p-2 rounded"
-      />
-      <input
-        type="text"
-        placeholder="Cores (separadas por vírgula)"
-        value={form.colors}
-        onChange={e => setForm({ ...form, colors: e.target.value })}
-        className="w-full border p-2 rounded"
-      />
-      <button
-        type="submit"
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+    <>
+    {user ? (
+      // 🔑 Usuário logado pode cadastrar produtos
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 max-w-md mx-auto mt-6 p-4 border rounded shadow"
       >
-        Cadastrar Produto
-      </button>
-    </form>
-  );
+        <h2 className="text-xl font-bold text-center mb-4">
+          Cadastrar Produto
+        </h2>
+        <input
+          type="text"
+          placeholder="Título do Produto"
+          value={form.title}
+          onChange={e => setForm({ ...form, title: e.target.value })}
+          className="w-full border p-2 rounded"
+        />
+        <input
+          type="number"
+          placeholder="Preço"
+          value={form.price}
+          onChange={e => setForm({ ...form, price: e.target.value })}
+          className="w-full border p-2 rounded"
+        />
+        <input
+          type="text"
+          placeholder="URLs das Imagens (separadas por vírgula)"
+          value={form.images}
+          onChange={e => setForm({ ...form, images: e.target.value })}
+          className="w-full border p-2 rounded"
+        />
+        <input
+          type="text"
+          placeholder="Tamanhos (separados por vírgula)"
+          value={form.sizes}
+          onChange={e => setForm({ ...form, sizes: e.target.value })}
+          className="w-full border p-2 rounded"
+        />
+        <input
+          type="text"
+          placeholder="Cores (separadas por vírgula)"
+          value={form.colors}
+          onChange={e => setForm({ ...form, colors: e.target.value })}
+          className="w-full border p-2 rounded"
+        />
+        <button
+          type="submit"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          Cadastrar Produto
+        </button>
+      </form>
+    ) : (
+      // 🔒 Se não estiver logado, bloqueia
+      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg text-center">
+        <h2 className="text-2xl font-bold text-gray-800">
+          Você precisa estar logado para cadastrar produtos 🚫
+        </h2>
+      </div>
+    )}
+  </>
+);
+
 };
 
 export default Produto;
