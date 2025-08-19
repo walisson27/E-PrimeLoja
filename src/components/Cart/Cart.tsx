@@ -41,7 +41,3 @@ const Cart = () => {
 };
 
 export default Cart;
-
-// Depois cria sistema de formulario de cadastro de usuario que vai ficar
-//salvo no banco de dados, e depois cria sistema de backend com node.js e mongoDB
-// cria uma aba no navbar para cadastro de usuario
