@@ -52,7 +52,26 @@ const ProdutoHome = () => {
   const removerDoCarrinho = (id: number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
+// Remover Produto
+const removerProduto = async (id: number) => {
+  const confirmar = window.confirm("Tem certeza que deseja remover este produto?");
+  if (!confirmar) return;
 
+  try {
+    await fetch(`https://loja-teste-1.onrender.com/produtos/${id}`, {
+      method: "DELETE",
+    });
+
+    // Remove do estado (frontend)
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+  } catch (error: any) {
+    console.error("Erro ao remover produto:", error.message || error);
+  }
+};
+
+
+
+  
   return (
     <div className="max-w-5xl mx-auto p-6">
       {/* BOTÃO/MODAL DO CARRINHO */}
@@ -92,6 +111,11 @@ const ProdutoHome = () => {
               className="mt-2 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
               Adicionar ao Carrinho
+            </button>
+            <button onClick={() =>removerProduto(product.id)}
+              className="mt-2 w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+              Remover Produto
             </button>
           </li>
         ))}
