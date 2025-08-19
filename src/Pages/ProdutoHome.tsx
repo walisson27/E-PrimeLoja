@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Order from "../components/Order/Order";
+import CarrinhoModal from "../components/Carrinho/CarrinhoModal"; 
 
 interface Product {
   id: number;
@@ -8,19 +9,22 @@ interface Product {
   images: string[];
 }
 
+interface CartItem extends Product {
+  quantidade: number;
+}
+
 const ProdutoHome = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [sortType, setSortType] = useState<string>("az");
+  const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Buscar produtos da API ao montar o componente
   useEffect(() => {
-    fetch("https://loja-teste-1.onrender.com/produtos") // ajuste a URL se necessário
+    fetch("https://loja-teste-1.onrender.com/produtos")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Erro ao buscar produtos:", err));
   }, []);
 
-  // Ordenar os produtos de acordo com o tipo selecionado
   const produtosOrdenados = [...products].sort((a: Product, b: Product) => {
     if (sortType === "az") return a.title.localeCompare(b.title);
     if (sortType === "za") return b.title.localeCompare(a.title);
@@ -29,30 +33,41 @@ const ProdutoHome = () => {
     return 0;
   });
 
- const removerProduto = async (id: number) => {
-    const confirm = window.confirm("Tem certeza que deseja remover este produto?");
-    if (!confirm) return;
+  // 👉 Adicionar ao carrinho
+  const adicionarAoCarrinho = (produto: Product) => {
+    setCart((prev) => {
+      const existente = prev.find((item) => item.id === produto.id);
+      if (existente) {
+        return prev.map((item) =>
+          item.id === produto.id
+            ? { ...item, quantidade: item.quantidade + 1 }
+            : item
+        );
+      }
+      return [...prev, { ...produto, quantidade: 1 }];
+    });
+  };
 
-    try {
-      await fetch(`https://loja-teste-1.onrender.com/produtos/${id}`, {
-        method: "DELETE",
-      });
-
-      // Remove do estado (frontend)
-      setProducts((prev) => prev.filter((p) => p.id !== id));
-    } catch (error) {
-      console.error("Erro ao remover produto:", error);
-    }
+  // 👉 Remover do carrinho
+  const removerDoCarrinho = (id: number) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
     <div className="max-w-5xl mx-auto p-6">
+      {/* BOTÃO/MODAL DO CARRINHO */}
+      <div className="flex justify-end mb-6">
+        <CarrinhoModal cart={cart} onRemove={removerDoCarrinho} />
+      </div>
+
+      {/* PRODUTOS */}
       <header className="flex flex-row justify-between items-center mb-6">
         <h1 className="text-4xl md:text-5xl font-bold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.25)]">
           Escolha um Produto
         </h1>
         <Order sortType={sortType} onSortChange={setSortType} />
       </header>
+
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {produtosOrdenados.map((product: Product) => (
           <li
@@ -70,11 +85,13 @@ const ProdutoHome = () => {
                 R$ {product.price.toFixed(2)}
               </p>
             </a>
+
+            {/* Botão para adicionar ao carrinho */}
             <button
-              onClick={() => removerProduto(product.id)}
-              className="mt-2 w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              onClick={() => adicionarAoCarrinho(product)}
+              className="mt-2 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              Remover Produto
+              Adicionar ao Carrinho
             </button>
           </li>
         ))}
