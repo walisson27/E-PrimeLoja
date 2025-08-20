@@ -29,30 +29,35 @@ const CarrinhoModal: React.FC<CarrinhoModalProps> = ({ cart, onRemove }) => {
         </button>
       </Dialog.Trigger>
 
-      {/* Overlay */}
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/40" />
+        <Dialog.Overlay className="fixed inset-0 bg-black/40 z-40" />
 
-        {/* Conteúdo do modal */}
-        <Dialog.Content className="fixed right-0 top-0 h-full w-96 bg-white shadow-lg p-6 overflow-y-auto rounded-l-2xl">
+        <Dialog.Content className="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-lg p-4 sm:p-6 overflow-y-auto rounded-l-2xl z-50 transition-transform transform sm:translate-x-0">
           <Dialog.Title className="text-2xl font-bold mb-4">
             Carrinho de Compras
           </Dialog.Title>
 
           {cart.length === 0 ? (
-            <p>Seu carrinho está vazio</p>
+            <p className="text-gray-500">Seu carrinho está vazio</p>
           ) : (
-            <ul className="divide-y">
+            <ul className="divide-y divide-gray-200">
               {cart.map((item) => (
                 <li
                   key={item.id}
                   className="flex justify-between items-center py-2"
                 >
-                  <div>
-                    <p className="font-semibold">{item.title}</p>
-                    <p>
-                      {item.quantidade}x R$ {item.price.toFixed(2)}
-                    </p>
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={item.images[0]}
+                      alt={item.title}
+                      className="w-12 h-12 object-cover rounded"
+                    />
+                    <div>
+                      <p className="font-semibold">{item.title}</p>
+                      <p className="text-sm">
+                        {item.quantidade} x R$ {item.price.toFixed(2)}
+                      </p>
+                    </div>
                   </div>
                   <button
                     onClick={() => onRemove(item.id)}
@@ -69,7 +74,6 @@ const CarrinhoModal: React.FC<CarrinhoModalProps> = ({ cart, onRemove }) => {
             Total: R$ {total.toFixed(2)}
           </div>
 
-          {/* Botão fechar */}
           <Dialog.Close asChild>
             <button className="mt-4 w-full bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
               Fechar

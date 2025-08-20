@@ -13,10 +13,14 @@ interface CartItem extends Product {
   quantidade: number;
 }
 
-const ProdutoHome = () => {
+interface ProdutoHomeProps {
+  cart: CartItem[];
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}
+
+const ProdutoHome: React.FC<ProdutoHomeProps> = ({ cart, setCart }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [sortType, setSortType] = useState<string>("az");
-  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     fetch("https://loja-teste-1.onrender.com/produtos")
@@ -46,6 +50,7 @@ const ProdutoHome = () => {
       }
       return [...prev, { ...produto, quantidade: 1 }];
     });
+    console.log("adicionando")
   };
 
   // 👉 Remover do carrinho
