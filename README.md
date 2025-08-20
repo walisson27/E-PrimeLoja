@@ -1,50 +1,57 @@
-<h1 align="center">🛍️ Loja Teste</h1>
+# Loja-Teste
 
-<p align="center">
-  <i>Uma aplicação de e-commerce desenvolvida com React, TypeScript e TailwindCSS.</i>
-</p>
+Uma aplicação de e-commerce desenvolvida com React, TypeScript e TailwindCSS, com backend em Node.js/Express hospedado no Render.
 
-<p align="center">
-  <a href="https://loja-teste-roan.vercel.app/" target="_blank">🌐 Acesse o Projeto</a>
-</p>
+🔗 [Acesse o Projeto](https://loja-teste-roan.vercel.app)
 
 ---
 
-## 📌 Sobre o Projeto
-Este projeto é uma **Loja Teste** criada para fins de estudo em **ReactJS** e **TypeScript**, com foco em boas práticas, componentização e estilização utilizando **TailwindCSS**.  
+## 🛠️ Tecnologias Utilizadas
 
-O objetivo é simular uma aplicação de e-commerce com interface moderna e responsiva.
+- **Frontend**:
+  - React (com Hooks)
+  - TypeScript
+  - TailwindCSS
+  - React Router DOM
+  - Radix UI (para modais)
+
+- **Backend**:
+  - Node.js
+  - Express
+  - Banco de dados JSON/Simples (para fins de teste)
+  - Hospedado no [Render](https://render.com)
+
+- **Ferramentas de Desenvolvimento**:
+  - Vite (para build e hot reload)
+  - ESLint & Prettier (para linting e formatação)
+  - Git & GitHub Actions (para controle de versão e CI/CD)
 
 ---
 
-## 🚀 Tecnologias Utilizadas
-- ⚛️ [ReactJS](https://react.dev/)  
-- 📘 [TypeScript](https://www.typescriptlang.org/)  
-- 🎨 [TailwindCSS](https://tailwindcss.com/)  
-- ⚡ [Vite](https://vitejs.dev/)  
+## 🚀 Como Rodar o Projeto Localmente
 
----
-
-## 📸 Demonstração
-<p align="center">
-  <img src="https://via.placeholder.com/800x400.png?text=Print+da+Loja+Teste" alt="Demonstração do projeto" />
-</p>
-
----
-
-## ⚙️ Instalação
-
-Clone o repositório e siga os passos:
+### 1. Clone o Repositório
 
 ```bash
-# Clonar repositório
 git clone https://github.com/walisson27/Loja-Teste.git
-
-# Acessar pasta do projeto
 cd Loja-Teste
-
-# Instalar dependências
+# Instale as dependências do frontend
+cd frontend
 npm install
 
-# Rodar em modo de desenvolvimento
+### 2. Instale as Dependências
+
+# Instale as dependências do backend
+cd ../backend
+npm install
+
+3. Inicie o Servidor de Desenvolvimento
+
+# Inicie o backend
+cd backend
 npm run dev
+
+# Inicie o frontend
+cd ../frontend
+npm run dev
+
