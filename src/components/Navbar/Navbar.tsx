@@ -1,43 +1,47 @@
 import {Link} from "react-router-dom";
-
+import {Menu, X} from "lucide-react"
+import { useState } from "react";
 
 const Navbar = () => {
+ const [isopen, setIsopen] = useState(false)
 
+ const toggleMenu = () => setIsopen(!isopen)
 
 
   return (
-        <nav className="bg-gray-900 shadow-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex-shrink-0 text-white text-lg font-bold tracking-wide">
-                Minha Loja
-              </div>
-              <ul className="flex space-x-8">
-                <li>
-                  <Link to={"/"}
-                    className="text-gray-300 hover:text-white transition-colors duration-300 font-medium"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/produto"} 
-                    className="text-gray-300 hover:text-white transition-colors duration-300 font-medium"
-                  >
-                    Cadastro de Produtos
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/login"}
-                    className="text-gray-300 hover:text-white transition-colors duration-300 font-medium"
-                  >
-                    Login
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+   <nav className="bg-black shadow-md fixed top-0 left-0 w-full z-10">
+  <div className="container mx-auto px-2 flex justify-between items-center h-16">
+    
+    {/* Logo */}
+    <Link to="/" className="text-2xl font-bold text-blue-600">
+      Logo
+    </Link>
+    
+    {/* Links Desktop */}
+    <div className="hidden md:flex space-x-6">
+      <Link to="/" className="text-gray-300 hover:text-blue-400">Home</Link>
+      <Link to="/produto" className="text-gray-300 hover:text-blue-400">Cadastro de Produto</Link>
+      <Link to="/login" className="text-gray-300 hover:text-blue-400">Login</Link>
+    </div>
+
+    {/* Botão Mobile */}
+    <div className="md:hidden">
+      <button onClick={toggleMenu} className="text-gray-300 hover:text-blue-400 focus:outline-none">
+        {isopen ? <X size={28} /> : <Menu size={28} />}
+      </button>
+    </div>
+  </div>
+
+  {/* Menu Mobile */}
+  {isopen && (
+    <div className="md:hidden bg-white border-t border-gray-200">
+      <Link to="/" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</Link>
+      <Link to="/produto" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Cadastro de Produto</Link>
+      <Link to="/login" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Login</Link>
+    </div>
+  )}
+</nav>
+
   );
 }
 
