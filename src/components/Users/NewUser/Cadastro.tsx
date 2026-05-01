@@ -1,5 +1,7 @@
-import  { useState } from 'react';
-import { useAuth } from '../../../utils/useAuth';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { UserPlus } from "../../Icons";
+import { useAuth } from "../../../utils/useAuth";
 
 export const Cadastrar = () => {
   const { register } = useAuth();
@@ -11,50 +13,40 @@ export const Cadastrar = () => {
     try {
       register(username, password);
       alert("Cadastro realizado com sucesso! Agora faça login.");
-      window.location.href = "/";
+      window.location.href = "/login";
     } catch (error: any) {
       alert(error.message);
     }
   };
 
   return (
-        <>
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5">
-        <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-            type="email"
-            id="email"
-            name="email"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="mt-1 w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
-            />
+    <div className="eprime-container flex min-h-[calc(100vh-180px)] items-center justify-center py-10">
+      <form onSubmit={handleSubmit} className="surface-card w-full max-w-md p-6 md:p-8">
+        <div className="mb-7">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+            <UserPlus size={24} />
+          </div>
+          <h1 className="text-2xl font-bold text-slate-950">Criar conta</h1>
+          <p className="mt-1 text-sm text-slate-500">Cadastre-se para acessar os recursos da loja.</p>
         </div>
 
-        <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Senha</label>
-            <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
-            />
+        <div className="grid gap-4">
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Email
+            <input type="email" value={username} onChange={(e) => setUsername(e.target.value)} required className="soft-input px-4 py-3" placeholder="seu@email.com" />
+          </label>
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Senha
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="soft-input px-4 py-3" placeholder="Crie uma senha" />
+          </label>
         </div>
 
-        <button
-            type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300"
-        >
-            Cadastrar
-        </button>
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Já tem uma conta? <a href="/login" className="text-blue-600 hover:underline">Faça login</a>
+        <button type="submit" className="primary-btn mt-6 w-full px-5 py-3">Cadastrar</button>
+        <p className="mt-5 text-center text-sm text-slate-500">
+          Já tem uma conta? <Link to="/login" className="font-bold text-blue-700 hover:underline">Faça login</Link>
         </p>
-        </form>
-        </>
+      </form>
+    </div>
   );
 };
 

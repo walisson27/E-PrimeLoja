@@ -8,16 +8,16 @@ type Props = {
 const VariantSelector = ({ label, options, selected, onChange }: Props) => {
   return (
     <div>
-      <h2 className="font-semibold mb-2">{label}:</h2>
+      <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">{label}</h2>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => (
           <button
             key={option}
             onClick={() => onChange(option)}
-            className={`px-4 py-2 border rounded-md transition duration-200 ${
+            className={`rounded-2xl border px-4 py-2.5 text-sm font-bold transition ${
               selected === option
-                ? "bg-blue-600 text-white border-blue-600"
-                : "bg-white text-gray-700 border-gray-300 hover:border-blue-400"
+                ? "border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-600/20"
+                : "border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50"
             }`}
           >
             {option}

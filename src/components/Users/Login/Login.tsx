@@ -1,98 +1,69 @@
 import { useState } from "react";
-import { useAuth } from "../../../utils/useAuth";
 import { Link } from "react-router-dom";
+import { LogIn, UserRound } from "../../Icons";
+import { useAuth } from "../../../utils/useAuth";
 
 function Login() {
   const { user, login, logout } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await login(username, password);
-      alert("Login bem-sucedido!");
       window.location.href = "/";
     } catch (error: any) {
       alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <>
+    <div className="eprime-container flex min-h-[calc(100vh-180px)] items-center justify-center py-10">
       {user ? (
-        // Se estiver logado, mostra o usuário e o botão sair
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5 text-center">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Bem-vindo, {user.username} 👋
-          </h2>
-          <button
-            onClick={logout}
-            className="w-full bg-red-600 text-white font-semibold py-2 rounded-md hover:bg-red-700 transition duration-300"
-          >
-            Sair
-          </button>
+        <div className="surface-card w-full max-w-md p-8 text-center">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+            <UserRound size={26} />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-950">Olá, {user.username}</h2>
+          <p className="mt-2 text-slate-500">Você já está conectado na sua conta.</p>
+          <button onClick={logout} className="danger-btn mt-6 w-full px-5 py-3">Sair da conta</button>
         </div>
       ) : (
-        // Se não estiver logado, mostra o formulário
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-5"
-        >
-          <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-            Login
-          </h2>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+        <form onSubmit={handleSubmit} className="surface-card w-full max-w-md p-6 md:p-8">
+          <div className="mb-7">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+              <LogIn size={24} />
+            </div>
+            <h1 className="text-2xl font-bold text-slate-950">Entrar</h1>
+            <p className="mt-1 text-sm text-slate-500">Acesse sua conta para gerenciar a loja.</p>
+          </div>
+
+          <div className="grid gap-4">
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
               Email
+              <input type="email" value={username} onChange={(e) => setUsername(e.target.value)} required className="soft-input px-4 py-3" placeholder="seu@email.com" />
             </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 transition"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
               Senha
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="soft-input px-4 py-3" placeholder="Sua senha" />
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 transition"
-            />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition duration-300"
-          >
-            Entrar
+
+          <button type="submit" className="primary-btn mt-6 w-full px-5 py-3" disabled={loading}>
+            {loading ? "Entrando..." : "Entrar"}
           </button>
-          <p className="mt-4 text-center text-sm text-gray-600">
-            Não tem uma conta?{" "}
-            <Link
-              to="/Cadastro"
-              className="text-blue-600 hover:underline"
-            >
-              Cadastre-se
-            </Link>
+
+          <p className="mt-5 text-center text-sm text-slate-500">
+            Não tem uma conta? <Link to="/Cadastro" className="font-bold text-blue-700 hover:underline">Cadastre-se</Link>
           </p>
         </form>
       )}
-    </>
+    </div>
   );
 }
 

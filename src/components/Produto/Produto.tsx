@@ -1,16 +1,17 @@
 import { useState } from "react";
+import { PackagePlus } from "../Icons";
 import { useAuth } from "../../utils/useAuth";
-
 
 const Produto = () => {
   const { user } = useAuth();
   const [form, setForm] = useState({
-    title: '',
-    price: '',
-    images: '', 
-    sizes: '',
-    colors: ''
+    title: "",
+    price: "",
+    images: "",
+    sizes: "",
+    colors: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,98 +19,93 @@ const Produto = () => {
       alert("Por favor, preencha todos os campos.");
       return;
     }
+
     const novoProduto = {
       title: form.title,
       price: parseFloat(form.price),
-      images: form.images.split(',').map(url => url.trim()),
+      images: form.images.split(",").map((url) => url.trim()).filter(Boolean),
       variants: {
-        sizes: form.sizes.split(',').map(size => size.trim()),
-        colors: form.colors.split(',').map(color => color.trim())
-      }
+        sizes: form.sizes.split(",").map((size) => size.trim()).filter(Boolean),
+        colors: form.colors.split(",").map((color) => color.trim()).filter(Boolean),
+      },
     };
 
-    await fetch("https://loja-teste-1.onrender.com/produtos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(novoProduto)
-    });
+    setLoading(true);
+    try {
+      const response = await fetch("https://loja-teste-1.onrender.com/produtos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(novoProduto),
+      });
 
-    alert("Produto cadastrado com sucesso!");
-    setForm({
-      title: '',
-      price: '',
-      images: '',
-      sizes: '',
-      colors: ''
-    });
+      if (!response.ok) throw new Error("Erro ao cadastrar produto");
+      alert("Produto cadastrado com sucesso!");
+      setForm({ title: "", price: "", images: "", sizes: "", colors: "" });
+    } catch (error: any) {
+      alert(error.message || "Erro ao cadastrar produto");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  if (!user) {
+    return (
+      <div className="eprime-container py-10">
+        <div className="surface-card mx-auto max-w-lg p-8 text-center">
+          <h2 className="text-2xl font-bold text-slate-950">Acesso restrito</h2>
+          <p className="mt-2 text-slate-500">Você precisa estar logado para cadastrar novos produtos.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <>
-    {user ? (
-      // 🔑 Usuário logado pode cadastrar produtos
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 max-w-md mx-auto mt-6 p-4 border rounded shadow"
-      >
-        <h2 className="text-xl font-bold text-center mb-4">
-          Cadastrar Produto
-        </h2>
-        <input
-          type="text"
-          placeholder="Título do Produto"
-          value={form.title}
-          onChange={e => setForm({ ...form, title: e.target.value })}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="number"
-          placeholder="Preço"
-          value={form.price}
-          onChange={e => setForm({ ...form, price: e.target.value })}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="text"
-          placeholder="URLs das Imagens (separadas por vírgula)"
-          value={form.images}
-          onChange={e => setForm({ ...form, images: e.target.value })}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="text"
-          placeholder="Tamanhos (separados por vírgula)"
-          value={form.sizes}
-          onChange={e => setForm({ ...form, sizes: e.target.value })}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="text"
-          placeholder="Cores (separadas por vírgula)"
-          value={form.colors}
-          onChange={e => setForm({ ...form, colors: e.target.value })}
-          className="w-full border p-2 rounded"
-        />
-        <button
-          type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          Cadastrar Produto
+    <div className="eprime-container py-10">
+      <form onSubmit={handleSubmit} className="surface-card mx-auto max-w-2xl p-6 md:p-8">
+        <div className="mb-7 flex items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+            <PackagePlus size={24} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-slate-950">Cadastrar produto</h1>
+            <p className="text-sm text-slate-500">Adicione as informações do produto para publicar na loja.</p>
+          </div>
+        </div>
+
+        <div className="grid gap-4">
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Nome do produto
+            <input className="soft-input px-4 py-3" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Ex: Tênis esportivo" />
+          </label>
+
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Preço
+            <input className="soft-input px-4 py-3" type="number" step="0.01" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} placeholder="Ex: 249.90" />
+          </label>
+
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            URLs das imagens
+            <textarea className="soft-input min-h-28 px-4 py-3" value={form.images} onChange={(e) => setForm({ ...form, images: e.target.value })} placeholder="Separe as URLs por vírgula" />
+          </label>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+              Tamanhos
+              <input className="soft-input px-4 py-3" value={form.sizes} onChange={(e) => setForm({ ...form, sizes: e.target.value })} placeholder="P, M, G" />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+              Cores
+              <input className="soft-input px-4 py-3" value={form.colors} onChange={(e) => setForm({ ...form, colors: e.target.value })} placeholder="Preto, Branco" />
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" className="primary-btn mt-6 w-full px-5 py-3" disabled={loading}>
+          {loading ? "Cadastrando..." : "Cadastrar produto"}
         </button>
       </form>
-    ) : (
-      // 🔒 Se não estiver logado, bloqueia
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg text-center">
-        <h2 className="text-2xl font-bold text-gray-800">
-          Você precisa estar logado para cadastrar produtos 🚫
-        </h2>
-      </div>
-    )}
-  </>
-);
-
+    </div>
+  );
 };
 
 export default Produto;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer.tsx/Footer";
@@ -8,6 +8,7 @@ import Login from "./components/Users/Login/Login";
 import Produto from "./components/Produto/Produto";
 import ProdutoHome from "./Pages/ProdutoHome";
 import ProdutoPage from "./Pages/ProdutoPage";
+import { getStoredCart, saveStoredCart } from "./utils/cartStorage";
 
 interface Product {
   id: number;
@@ -21,28 +22,34 @@ interface CartItem extends Product {
 }
 
 function App() {
-    const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(() => getStoredCart());
 
-    const removerDoCarrinho = (id: number) => {
+  useEffect(() => {
+    saveStoredCart(cart);
+  }, [cart]);
+
+  const removerDoCarrinho = (id: number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
     <Router>
-      <Navbar cart={cart} onRemove={removerDoCarrinho} />
-      <Routes>
-        <Route path="/" element={<ProdutoHome cart={cart} setCart={setCart} />} />
-        <Route path="/ProdutoPage" element={<ProdutoPage />} />
-        <Route path="/Cadastro" element={<Cadastro />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/produto" element={
-        <Produto />
-        } />
-      </Routes>
-      <Footer/>
+      <div className="app-shell">
+        <Navbar cart={cart} onRemove={removerDoCarrinho} />
+        <main className="app-content">
+          <Routes>
+            <Route path="/" element={<ProdutoHome cart={cart} setCart={setCart} />} />
+            <Route path="/ProdutoPage" element={<ProdutoPage setCart={setCart} />} />
+            <Route path="/Cadastro" element={<Cadastro />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/produto" element={<Produto />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

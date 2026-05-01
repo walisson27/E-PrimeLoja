@@ -1,5 +1,6 @@
 import React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import { ShoppingCart, Trash2, X } from "../Icons";
 
 interface CartItem {
   id: number;
@@ -15,70 +16,69 @@ interface CarrinhoModalProps {
 }
 
 const CarrinhoModal: React.FC<CarrinhoModalProps> = ({ cart, onRemove }) => {
-  const total = cart.reduce(
-    (acc, item) => acc + item.price * item.quantidade,
-    0
-  );
+  const totalItems = cart.reduce((acc, item) => acc + item.quantidade, 0);
+  const total = cart.reduce((acc, item) => acc + item.price * item.quantidade, 0);
 
   return (
     <Dialog.Root>
-      {/* Botão que abre o modal */}
       <Dialog.Trigger asChild>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          🛒 Carrinho ({cart.length})
+        <button className="primary-btn relative px-4 py-2 text-sm">
+          <ShoppingCart size={17} />
+          Carrinho
+          <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">{totalItems}</span>
         </button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/40 z-40" />
-
-        <Dialog.Content className="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-lg p-4 sm:p-6 overflow-y-auto rounded-l-2xl z-50 transition-transform transform sm:translate-x-0">
-          <Dialog.Title className="text-2xl font-bold mb-4">
-            Carrinho de Compras
-          </Dialog.Title>
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/45 backdrop-blur-sm" />
+        <Dialog.Content className="fixed right-0 top-0 z-50 h-full w-full max-w-md overflow-y-auto bg-white p-5 shadow-2xl sm:rounded-l-[28px] sm:p-6">
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <div>
+              <Dialog.Title className="text-xl font-bold text-slate-950">Carrinho</Dialog.Title>
+              <Dialog.Description className="text-sm text-slate-500">
+                Revise seus produtos antes de finalizar.
+              </Dialog.Description>
+            </div>
+            <Dialog.Close asChild>
+              <button className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200">
+                <X size={18} />
+              </button>
+            </Dialog.Close>
+          </div>
 
           {cart.length === 0 ? (
-            <p className="text-gray-500">Seu carrinho está vazio</p>
+            <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+              <ShoppingCart className="mx-auto mb-3 text-slate-400" size={38} />
+              <p className="font-semibold text-slate-800">Seu carrinho está vazio</p>
+              <p className="mt-1 text-sm text-slate-500">Adicione produtos para aparecerem aqui.</p>
+            </div>
           ) : (
-            <ul className="divide-y divide-gray-200">
+            <ul className="space-y-3">
               {cart.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex justify-between items-center py-2"
-                >
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={item.images[0]}
-                      alt={item.title}
-                      className="w-12 h-12 object-cover rounded"
-                    />
-                    <div>
-                      <p className="font-semibold">{item.title}</p>
-                      <p className="text-sm">
-                        {item.quantidade} x R$ {item.price.toFixed(2)}
-                      </p>
-                    </div>
+                <li key={item.id} className="flex gap-3 rounded-2xl border border-slate-200 bg-white p-3">
+                  <img src={item.images[0]} alt={item.title} className="h-16 w-16 rounded-2xl object-cover" />
+                  <div className="min-w-0 flex-1">
+                    <p className="line-clamp-2 text-sm font-semibold text-slate-900">{item.title}</p>
+                    <p className="mt-1 text-sm text-slate-500">{item.quantidade} x R$ {item.price.toFixed(2)}</p>
                   </div>
-                  <button
-                    onClick={() => onRemove(item.id)}
-                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                  >
-                    Remover
+                  <button onClick={() => onRemove(item.id)} className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-600 hover:bg-red-100">
+                    <Trash2 size={16} />
                   </button>
                 </li>
               ))}
             </ul>
           )}
 
-          <div className="mt-4 font-bold text-lg">
-            Total: R$ {total.toFixed(2)}
-          </div>
-
-          <Dialog.Close asChild>
-            <button className="mt-4 w-full bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
-              Fechar
+          <div className="mt-6 rounded-3xl bg-slate-950 p-5 text-white">
+            <div className="flex items-center justify-between text-sm text-slate-300">
+              <span>Total</span>
+              <span>{totalItems} item(ns)</span>
+            </div>
+            <p className="mt-2 text-3xl font-bold">R$ {total.toFixed(2)}</p>
+            <button className="mt-4 w-full rounded-2xl bg-white px-4 py-3 font-bold text-slate-950 transition hover:bg-slate-100">
+              Finalizar compra
             </button>
-          </Dialog.Close>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

@@ -1,4 +1,3 @@
-
 interface OrderProps {
   sortType: string;
   onSortChange: (value: string) => void;
@@ -6,23 +5,18 @@ interface OrderProps {
 
 const Order = ({ sortType, onSortChange }: OrderProps) => {
   return (
-    <div className="p-6">
-      <div className="mb-4">
-        <label className="mr-2 font-semibold" htmlFor="sort-select">
-        </label>
-        <select
-          id="sort-select"
-          value={sortType}
-          onChange={(e) => onSortChange(e.target.value)}
-          className="border rounded px-2 py-1"
-        >
-          <option value="az">A - Z</option>
-          <option value="za">Z - A</option>
-          <option value="menorPreco">Menor Preço</option>
-          <option value="maiorPreco">Maior Preço</option>
-        </select>
-      </div>
-    </div>
+    <select
+      id="sort-select"
+      value={sortType}
+      onChange={(e) => onSortChange(e.target.value)}
+      className="soft-input w-full px-4 py-3 text-sm font-medium text-slate-700 sm:w-44"
+      aria-label="Ordenar produtos"
+    >
+      <option value="az">A - Z</option>
+      <option value="za">Z - A</option>
+      <option value="menorPreco">Menor preço</option>
+      <option value="maiorPreco">Maior preço</option>
+    </select>
   );
 };
 
